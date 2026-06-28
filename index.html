@@ -3,658 +3,395 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="logo.png" href="logo.png">
 <title>Eventra — Student Event Registration Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#1b2b22;
-    --paper:#f7f3e8;
-    --surface:#fffdf7;
-    --line:#e6ddc7;
-    --muted:#6f7866;
-    --teal:#2f6b4f;
-    --teal-deep:#1f4d38;
-    --coral:#c1652f;
-    --amber:#d9a440;
-  }
-
-  *{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; }
-  body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Inter', sans-serif;
-    line-height:1.55;
-    -webkit-font-smoothing:antialiased;
-  }
-  h1,h2,h3,.brand-name,nav a,button{ font-family:'Space Grotesk', sans-serif; }
-  .mono{ font-family:'JetBrains Mono', monospace; }
-  a{ color:inherit; text-decoration:none; }
-  img,svg{ display:block; }
-
-  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; }
-  section{ padding:64px 0; }
-  section.tight{ padding:48px 0; }
-
-  /* ---------- Header ---------- */
-  header.site-head{
-    background:var(--ink);
-    color:#f6f7f9;
-    position:sticky;
-    top:0;
-    z-index:50;
-    border-bottom:1px solid #000;
-  }
-  .head-inner{
-    max-width:1120px;
-    margin:0 auto;
-    padding:18px 32px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:24px;
-    flex-wrap:wrap;
-  }
-  .brand{ display:flex; align-items:center; gap:14px; }
-  .brand-mark{
-    width:40px; height:40px; border-radius:10px;
-    background:linear-gradient(155deg, var(--teal), var(--teal-deep));
-    display:flex; align-items:center; justify-content:center;
-    color:#fff; font-weight:700; font-size:18px; flex-shrink:0;
-  }
-  .brand-text .brand-name{ font-size:19px; font-weight:700; letter-spacing:0.2px; }
-  .brand-text .tagline{ font-size:12.5px; color:#a9b8a3; margin-top:1px; }
-
-  .student-tag{
-    text-align:right;
-    font-size:12.5px;
-    color:#a9b8a3;
-    line-height:1.4;
-  }
-  .student-tag strong{ color:#fff; font-weight:600; display:block; font-size:13.5px; }
-  .student-tag .regno{ color:#e9c46a; }
-
-  nav.main-nav{
-    background:#16271d;
-    border-top:1px solid #25402f;
-  }
-  nav.main-nav ul{
-    max-width:1120px;
-    margin:0 auto;
-    padding:0 32px;
-    list-style:none;
-    display:flex;
-    gap:28px;
-    overflow-x:auto;
-  }
-  nav.main-nav li{ flex-shrink:0; }
-  nav.main-nav a{
-    display:inline-block;
-    padding:13px 2px;
-    color:#b9c4b0;
-    font-size:13.5px;
-    font-weight:500;
-    border-bottom:2px solid transparent;
-  }
-  nav.main-nav a:hover{ color:#fff; border-bottom-color:var(--teal); }
-  nav.main-nav a.logout{ color:var(--coral); }
-
-  /* ---------- Welcome ---------- */
-  .welcome-grid{
-    display:grid;
-    grid-template-columns:1.3fr 1fr;
-    gap:48px;
-    align-items:start;
-  }
-  .welcome-grid h1{
-    font-size:38px;
-    font-weight:700;
-    margin:0 0 14px;
-    letter-spacing:-0.3px;
-  }
-  .welcome-grid p.desc{
-    color:#344034;
-    font-size:15.5px;
-    max-width:480px;
-    margin:0;
-  }
-  .vm-stack{ display:flex; flex-direction:column; gap:16px; }
-  .vm-card{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-left:3px solid var(--teal);
-    border-radius:10px;
-    padding:18px 20px;
-  }
-  .vm-card.mission{ border-left-color:var(--coral); }
-  .vm-card .eyebrow{
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:1.2px;
-    color:var(--muted);
-    font-weight:600;
-    margin-bottom:6px;
-  }
-  .vm-card p{ margin:0; font-size:14px; color:#344034; }
-
-  /* ---------- Stats ---------- */
-  .stats-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:8px; }
-  .stats-head h2{ font-size:22px; margin:0; }
-  .stats-head span{ font-size:13px; color:var(--muted); }
-
-  .stat-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:18px;
-  }
-  .stat-card{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:20px 22px;
-  }
-  .stat-card .label{
-    font-size:12px;
-    color:var(--muted);
-    text-transform:uppercase;
-    letter-spacing:0.8px;
-    font-weight:600;
-  }
-  .stat-card .value{
-    font-family:'JetBrains Mono', monospace;
-    font-size:28px;
-    font-weight:600;
-    margin-top:8px;
-    color:var(--ink);
-  }
-  .stat-card .value.accent{ color:var(--teal-deep); }
-  .stat-card .value.warn{ color:var(--coral); }
-
-  /* ---------- Features / Services ---------- */
-  .split-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:40px;
-  }
-  .split-grid h3{ font-size:18px; margin:0 0 16px; }
-  .split-grid .panel{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:26px 28px;
-    height:100%;
-  }
-  ul.feature-list{ margin:0; padding:0; list-style:none; }
-  ul.feature-list li{
-    position:relative;
-    padding:9px 0 9px 24px;
-    font-size:14.5px;
-    border-bottom:1px solid #ece4d0;
-  }
-  ul.feature-list li:last-child{ border-bottom:none; }
-  ul.feature-list li::before{
-    content:"";
-    position:absolute; left:0; top:16px;
-    width:8px; height:8px; border-radius:50%;
-    background:var(--teal);
-  }
-
-  ol.service-list{ margin:0; padding:0 0 0 4px; list-style:none; counter-reset:step; }
-  ol.service-list li{
-    counter-increment:step;
-    position:relative;
-    padding:9px 0 9px 36px;
-    font-size:14.5px;
-    border-bottom:1px solid #ece4d0;
-  }
-  ol.service-list li:last-child{ border-bottom:none; }
-  ol.service-list li::before{
-    content:counter(step);
-    position:absolute; left:0; top:7px;
-    width:22px; height:22px; border-radius:6px;
-    background:var(--ink); color:#fff;
-    font-family:'JetBrains Mono', monospace;
-    font-size:12px; font-weight:600;
-    display:flex; align-items:center; justify-content:center;
-  }
-
-  /* ---------- Latest Updates: departure board ---------- */
-  .board-section{ padding:0; }
-  .board{
-    background:#0e1b14;
-    border-top:1px solid #000;
-    border-bottom:1px solid #000;
-    padding:0;
-    overflow:hidden;
-  }
-  .board-inner{
-    max-width:1120px;
-    margin:0 auto;
-    padding:14px 32px;
-    display:flex;
-    align-items:center;
-    gap:18px;
-  }
-  .board-label{
-    flex-shrink:0;
-    font-family:'JetBrains Mono', monospace;
-    font-size:11px;
-    letter-spacing:1.4px;
-    text-transform:uppercase;
-    color:var(--amber);
-    border:1px solid #3a3320;
-    padding:5px 10px;
-    border-radius:4px;
-    background:#1a1608;
-  }
-  marquee{
-    font-family:'JetBrains Mono', monospace;
-    color:#bfe6c9;
-    font-size:14px;
-    letter-spacing:0.3px;
-  }
-  marquee b{ color:var(--amber); font-weight:600; }
-
-  /* ---------- Registration Form ---------- */
-  .form-card{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:36px 40px;
-  }
-  .form-card h2{ margin:0 0 4px; font-size:22px; }
-  .form-card .sub{ color:var(--muted); font-size:13.5px; margin:0 0 28px; }
-  .form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px 24px;
-  }
-  .form-grid .full{ grid-column:1 / -1; }
-  label{
-    display:block;
-    font-size:12.5px;
-    font-weight:600;
-    color:#344034;
-    margin-bottom:6px;
-  }
-  input[type=text], input[type=email], input[type=tel], input[type=password], input[type=date], select, textarea{
-    width:100%;
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:11px 13px;
-    font-family:'Inter', sans-serif;
-    font-size:14px;
-    background:#fbf8f0;
-    color:var(--ink);
-  }
-  input:focus, select:focus, textarea:focus{
-    outline:2px solid var(--teal);
-    outline-offset:1px;
-    background:#fffdf7;
-  }
-  textarea{ resize:vertical; min-height:72px; }
-  .radio-row{ display:flex; gap:20px; align-items:center; padding-top:6px; }
-  .radio-row label{ display:flex; align-items:center; gap:6px; font-weight:500; margin-bottom:0; }
-  .radio-row input{ width:auto; }
-  .form-actions{ display:flex; gap:12px; margin-top:8px; }
-  button{
-    font-size:14px; font-weight:600;
-    padding:11px 26px;
-    border-radius:8px;
-    border:none;
-    cursor:pointer;
-  }
-  button[type=submit]{ background:var(--teal); color:#fff; }
-  button[type=submit]:hover{ background:var(--teal-deep); }
-  button[type=reset]{ background:transparent; color:#344034; border:1px solid var(--line); }
-  button[type=reset]:hover{ background:#f0ead8; }
-
-  /* ---------- Modules table ---------- */
-  table.modules{
-    width:100%;
-    border-collapse:collapse;
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:12px;
-    overflow:hidden;
-  }
-  table.modules thead th{
-    background:var(--ink);
-    color:#fff;
-    text-align:left;
-    font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:0.8px;
-    padding:14px 18px;
-  }
-  table.modules td{
-    padding:14px 18px;
-    font-size:14px;
-    border-bottom:1px solid #ece4d0;
-    vertical-align:top;
-  }
-  table.modules tbody tr:nth-child(even){ background:#fbf8f0; }
-  table.modules tbody tr:last-child td{ border-bottom:none; }
-  table.modules td.id{ font-family:'JetBrains Mono', monospace; color:var(--teal-deep); font-weight:600; white-space:nowrap; }
-  table.modules td.name{ font-weight:600; white-space:nowrap; }
-
-  /* ---------- Contact ---------- */
-  .contact-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:24px;
-  }
-  .contact-card{
-    background:var(--surface);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:22px 24px;
-  }
-  .contact-card .eyebrow{
-    font-size:11px; text-transform:uppercase; letter-spacing:1px;
-    color:var(--muted); font-weight:600; margin-bottom:8px;
-  }
-  .contact-card p{ margin:0; font-size:14.5px; }
-  .social-row{
-    margin-top:28px;
-    display:flex; gap:18px; flex-wrap:wrap;
-    font-size:13.5px;
-  }
-  .social-row a{ color:var(--teal-deep); font-weight:600; border-bottom:1px solid transparent; }
-  .social-row a:hover{ border-bottom-color:var(--teal-deep); }
-
-  /* ---------- Footer ---------- */
-  footer{
-    background:var(--ink);
-    color:#b9c4b0;
-    padding:22px 0;
-  }
-  .foot-inner{
-    max-width:1120px;
-    margin:0 auto;
-    padding:0 32px;
-    display:flex;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:8px;
-    font-size:13px;
-  }
-
-  /* ---------- Responsive ---------- */
-  @media (max-width: 860px){
-    .welcome-grid, .split-grid{ grid-template-columns:1fr; }
-    .stat-grid{ grid-template-columns:repeat(2,1fr); }
-    .contact-grid{ grid-template-columns:1fr; }
-    .form-grid{ grid-template-columns:1fr; }
-    .form-card{ padding:28px 22px; }
-  }
-  @media (max-width: 520px){
-    .stat-grid{ grid-template-columns:1fr; }
-    .welcome-grid h1{ font-size:30px; }
-    .head-inner{ flex-direction:column; align-items:flex-start; }
-    .student-tag{ text-align:left; }
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body id="body">
 
-<header class="site-head">
-  <div class="head-inner">
-    <div class="brand">
-      <div class="brand-mark">
-    <img src="logo.png" alt="Eventra Logo" width="40" height="40">
+<!-- HEADER -->
+<header>
+
+  <div class="header-inner">
+    <div class="logo">
+     <div class="brand-mark">
+    <img src="logo.png" alt="Eventra Logo">
 </div>
-      <div class="brand-text">
-        <div class="brand-name">Eventra</div>
-        <div class="tagline">Where campus events come to life</div>
+      <div>
+        <div class="logo-name">Eventra</div>
+        <div class="logo-tagline">Where campus events come to life</div>
       </div>
     </div>
-    <div class="student-tag">
-      <strong>Gokul SV</strong>
-      Reg. No. <span class="regno mono">19</span>
+
+    <nav>
+      <a href="#home" class="active">Home</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#services">Services</a>
+      <a href="#register">Register</a>
+      <a href="#reports">Reports</a>
+      <a href="#contact">Contact</a>
+      <a href="#" class="nav-logout">Logout</a>
+    </nav>
+
+    <div class="header-actions">
+      <div id="datetime-chip" class="mono">--</div>
+
+      <button class="btn-icon" id="notif-btn" onclick="toggleNotif()" aria-label="Notifications">
+        🔔
+        <span class="notif-dot"></span>
+      </button>
+
+      <button class="btn-icon" id="theme-btn" onclick="toggleTheme()" aria-label="Toggle theme">☀️</button>
+
+      <div class="student-chip">
+        <div class="student-avatar">GS</div>
+        <div class="student-info">
+          <div class="student-name">Gokul SV</div>
+          <div class="student-reg mono">19</div>
+        </div>
+      </div>
     </div>
   </div>
-  <nav class="main-nav">
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#dashboard">Dashboard</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#reports">Reports</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="#" class="logout">Logout</a></li>
-    </ul>
-  </nav>
 </header>
 
-<!-- Welcome Section -->
-<section id="home" class="wrap">
-  <div class="welcome-grid">
-    <div>
-      <h1>Welcome back, Gokul.</h1>
-      <p class="desc">Eventra centralizes every fest, workshop, and hackathon happening across the CIT campus into one registration desk — browse, book, and check in without the spreadsheet chaos.</p>
-    </div>
-    <div class="vm-stack">
-      <div class="vm-card">
-        <div class="eyebrow">Vision</div>
-        <p>A campus where finding and joining the right event takes seconds, not group-chat archaeology.</p>
-      </div>
-      <div class="vm-card mission">
-        <div class="eyebrow">Mission</div>
-        <p>Give every club a professional registration page in minutes, and give every student one place to track what they've signed up for.</p>
+<!-- NOTIFICATION PANEL -->
+<div id="notif-panel" role="dialog" aria-label="Notifications">
+  <div class="np-head">
+    <span class="np-title">Notifications</span>
+    <button class="np-close" onclick="toggleNotif()">✕</button>
+  </div>
+  <div class="np-list">
+    <div class="np-item" style="animation-delay:.05s">
+      <div class="np-ico orange">⚠</div>
+      <div class="np-body">
+        <div class="np-text"><strong>TECHNOVA 2026</strong> — registrations close Friday</div>
+        <div class="np-time">2 hours ago</div>
       </div>
     </div>
+    <div class="np-item" style="animation-delay:.12s">
+      <div class="np-ico green">✓</div>
+      <div class="np-body">
+        <div class="np-text">Your Hackathon certificate is ready to download</div>
+        <div class="np-time">Yesterday</div>
+      </div>
+    </div>
+    <div class="np-item" style="animation-delay:.18s">
+      <div class="np-ico blue">ℹ</div>
+      <div class="np-body">
+        <div class="np-text">UI/UX Workshop — only <strong>12 seats</strong> remaining</div>
+        <div class="np-time">2 days ago</div>
+      </div>
+    </div>
   </div>
-</section>
+</div>
 
-<!-- Dashboard Statistics -->
-<section id="dashboard" class="wrap tight">
-  <div class="stats-head">
-    <h2>Dashboard overview</h2>
-    <span class="mono">Updated just now</span>
-  </div>
-  <div class="stat-grid">
-    <div class="stat-card">
-      <div class="label">Total Users</div>
-      <div class="value">4,812</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Active Users</div>
-      <div class="value accent">1,203</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Event Revenue</div>
-      <div class="value">&#8377;2,84,500</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Transactions</div>
-      <div class="value">938</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Notifications</div>
-      <div class="value accent">27</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Pending Tasks</div>
-      <div class="value warn">6</div>
-    </div>
-  </div>
-</section>
-
-<!-- Features & Services -->
-<section id="services" class="wrap">
-  <div class="split-grid">
-    <div class="panel">
-      <h3>What you can do</h3>
-      <ul class="feature-list">
-        <li>One-tap RSVP with instant seat confirmation</li>
-        <li>Live seat-availability counter on every event page</li>
-        <li>QR-code entry pass generated automatically</li>
-        <li>Automated reminder email 24 hours before an event</li>
-        <li>Digital participation certificate after check-in</li>
-        <li>Organizer view for attendance and feedback tracking</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>How registration works</h3>
-      <ol class="service-list">
-        <li>Browse upcoming events by department or club</li>
-        <li>Register with your student details</li>
-        <li>Pay the event fee, if any, through a secure gateway</li>
-        <li>Receive your QR ticket by email</li>
-        <li>Check in by scanning the QR code at the venue</li>
-        <li>Download your certificate after the event</li>
-      </ol>
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="hero-dot"></span>
+          CIT Campus Portal — Live
+        </div>
+        <h1>Campus events,<br><span>one place.</span></h1>
+        <p class="hero-desc">Eventra brings every fest, workshop, and hackathon on the CIT campus into one clean registration desk — browse, book, and check in without the spreadsheet chaos.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="document.getElementById('register').scrollIntoView({behavior:'smooth'})">
+            Register now →
+          </button>
+          <button class="btn-secondary" onclick="document.getElementById('dashboard').scrollIntoView({behavior:'smooth'})">
+            View Dashboard
+          </button>
+        </div>
+      </div>
+      <div class="vm-stack">
+        <div class="vm-card">
+          <div class="vm-label">Vision</div>
+          <div class="vm-text">A campus where finding and joining the right event takes seconds, not group-chat archaeology.</div>
+        </div>
+        <div class="vm-card mission">
+          <div class="vm-label" style="color:var(--orange)">Mission</div>
+          <div class="vm-text">Give every club a professional registration page in minutes, and every student one place to track what they've signed up for.</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Latest Updates -->
-<section class="board-section">
-  <div class="board">
-    <div class="board-inner">
-      <span class="board-label">Latest&nbsp;Updates</span>
-      <marquee behavior="scroll" direction="left" scrollamount="5">
-        <b>TECHNOVA 2026</b> registrations close this Friday &nbsp;&bull;&nbsp; New workshop on <b>UI/UX Design</b> — seats filling fast &nbsp;&bull;&nbsp; Cultural Fest volunteer sign-ups are now open &nbsp;&bull;&nbsp; Scheduled maintenance: payment gateway upgrade tonight, 11&nbsp;PM–12&nbsp;AM &nbsp;&bull;&nbsp; Certificates for last week's Hackathon are now ready for download
-      </marquee>
+<!-- SLIDER -->
+<section class="slider-section" aria-label="Event highlights">
+  <div class="slider-wrap" id="slider-wrap">
+    <div class="slides-track" id="slides-track">
+      <div class="slide slide-1">
+        <span class="slide-badge">🚀 Live Now</span>
+        <h2>TECHNOVA 2026</h2>
+        <p>National-level hackathon · Jan 31 – Feb 1, 2026</p>
+      </div>
+      <div class="slide slide-2">
+        <span class="slide-badge">🎨 Workshop</span>
+        <h2>UI/UX Design Bootcamp</h2>
+        <p>2-day intensive with industry mentors · Feb 8–9</p>
+      </div>
+      <div class="slide slide-3">
+        <span class="slide-badge">🌿 Volunteer</span>
+        <h2>Cultural Fest 2026</h2>
+        <p>Sign up to make Kalolsavam unforgettable</p>
+      </div>
+      <div class="slide slide-4">
+        <span class="slide-badge">🏆 New</span>
+        <h2>Inter-Dept Sports Meet</h2>
+        <p>Cricket · Badminton · Chess · TT · Feb 14</p>
+      </div>
+    </div>
+    <button class="slide-btn slide-prev" onclick="moveSlide(-1)" aria-label="Previous">‹</button>
+    <button class="slide-btn slide-next" onclick="moveSlide(1)" aria-label="Next">›</button>
+    <div class="slide-dots" id="slide-dots"></div>
+  </div>
+</section>
+
+<!-- DASHBOARD STATS -->
+<section id="dashboard" class="compact">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-head-text">
+        <div class="section-label">Dashboard</div>
+        <div class="section-title">Portal overview</div>
+        <div class="section-sub">Live statistics across all campus events</div>
+      </div>
+      <div class="section-meta" id="stat-time">Updating…</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card" style="animation-delay:.05s">
+        <div class="stat-label">Total Users</div>
+        <div class="stat-value blue" data-target="4812">0</div>
+        <div class="stat-bar-wrap"><div class="stat-bar-fill" style="--w:80%;width:0"></div></div>
+      </div>
+      <div class="stat-card" style="animation-delay:.1s">
+        <div class="stat-label">Active Users</div>
+        <div class="stat-value" data-target="1203">0</div>
+        <div class="stat-bar-wrap"><div class="stat-bar-fill" style="--w:60%;width:0"></div></div>
+      </div>
+      <div class="stat-card success" style="animation-delay:.15s">
+        <div class="stat-label">Event Revenue</div>
+        <div class="stat-value green" data-target="284500" data-prefix="₹" data-format="currency">0</div>
+        <div class="stat-bar-wrap"><div class="stat-bar-fill green" style="--w:72%;width:0"></div></div>
+      </div>
+      <div class="stat-card" style="animation-delay:.2s">
+        <div class="stat-label">Transactions</div>
+        <div class="stat-value" data-target="938">0</div>
+        <div class="stat-bar-wrap"><div class="stat-bar-fill" style="--w:52%;width:0"></div></div>
+      </div>
+      <div class="stat-card" style="animation-delay:.25s">
+        <div class="stat-label">Notifications</div>
+        <div class="stat-value blue" data-target="27">0</div>
+        <div class="stat-bar-wrap"><div class="stat-bar-fill" style="--w:30%;width:0"></div></div>
+      </div>
+      <div class="stat-card warn" style="animation-delay:.3s">
+        <div class="stat-label">Pending Tasks</div>
+        <div class="stat-value orange" data-target="6">0</div>
+        <div class="stat-bar-wrap"><div class="stat-bar-fill orange" style="--w:10%;width:0"></div></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Registration Form -->
-<section id="register" class="wrap">
-  <div class="form-card">
-    <h2>Event registration</h2>
-    <p class="sub">Fill in your details once — use it to register for any event on Eventra.</p>
-    <form>
-      <div class="form-grid">
-        <div>
-          <label for="name">Full Name</label>
-          <input type="text" id="name" name="name" placeholder="Enter your full name" required>
-        </div>
-        <div>
-          <label for="email">Email Address</label>
-          <input type="email" id="email" name="email" placeholder="you@cit.edu.in" required>
-        </div>
-        <div>
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" placeholder="+91 00000 00000" required>
-        </div>
-        <div>
-          <label for="password">Password</label>
-          <input type="password" id="password" name="password" placeholder="Create a password" required>
-        </div>
-        <div>
-          <label>Gender</label>
-          <div class="radio-row">
-            <label><input type="radio" name="gender" value="female"> Female</label>
-            <label><input type="radio" name="gender" value="male"> Male</label>
-            <label><input type="radio" name="gender" value="other"> Other</label>
+<!-- FEATURES & SERVICES -->
+<section id="services" class="compact" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-head-text">
+        <div class="section-label">Platform</div>
+        <div class="section-title">Features &amp; Services</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-title">What you can do</div>
+        <ul class="feature-list">
+          <li><span class="feature-icon">✓</span>One-tap RSVP with instant seat confirmation</li>
+          <li><span class="feature-icon">✓</span>Live seat-availability counter per event</li>
+          <li><span class="feature-icon">✓</span>QR-code entry pass generated automatically</li>
+          <li><span class="feature-icon">✓</span>Reminder email 24 hours before each event</li>
+          <li><span class="feature-icon">✓</span>Digital participation certificate after check-in</li>
+          <li><span class="feature-icon">✓</span>Organizer dashboard for attendance &amp; feedback</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <div class="panel-title">How registration works</div>
+        <ol class="service-list">
+          <li>Browse upcoming events by department or club</li>
+          <li>Register with your student details</li>
+          <li>Pay the event fee through a secure gateway</li>
+          <li>Receive your QR ticket by email</li>
+          <li>Scan the QR code at the venue to check in</li>
+          <li>Download your certificate after the event</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner-wrap">
+    <span class="ticker-label">Updates</span>
+    <div class="ticker-track">
+      <span class="ticker-text">
+        <b>TECHNOVA 2026</b> registrations close Friday &nbsp;·&nbsp;
+        UI/UX Workshop — seats filling fast &nbsp;·&nbsp;
+        Cultural Fest volunteer sign-ups are open &nbsp;·&nbsp;
+        Payment gateway upgrade tonight 11 PM–12 AM &nbsp;·&nbsp;
+        Hackathon certificates ready for download &nbsp;·&nbsp;
+        <b>Sports Meet 2026</b> registration opens Monday &nbsp;·&nbsp;
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTRATION FORM -->
+<section id="register" class="compact" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:28px">
+      <div class="section-head-text">
+        <div class="section-label">Registration</div>
+        <div class="section-title">Create your account</div>
+        <div class="section-sub">One profile to register for every event on Eventra</div>
+      </div>
+    </div>
+    <div class="form-card">
+      <form id="reg-form" novalidate>
+        <div class="form-grid">
+          <div>
+            <label class="field-label" for="f-name">Full Name</label>
+            <input type="text" id="f-name" placeholder="Your full name">
+            <div class="field-err" id="e-name">Please enter your full name.</div>
+          </div>
+          <div>
+            <label class="field-label" for="f-email">Email Address</label>
+            <input type="email" id="f-email" placeholder="you@cit.edu.in">
+            <div class="field-err" id="e-email">Enter a valid email address.</div>
+          </div>
+          <div>
+            <label class="field-label" for="f-phone">Phone Number</label>
+            <input type="tel" id="f-phone" placeholder="+91 00000 00000">
+            <div class="field-err" id="e-phone">Enter a valid 10-digit number.</div>
+          </div>
+          <div>
+            <label class="field-label" for="f-password">Password</label>
+            <input type="password" id="f-password" placeholder="Minimum 8 characters">
+            <div class="field-err" id="e-password">Must be at least 8 characters.</div>
+          </div>
+          <div>
+            <label class="field-label">Gender</label>
+            <div class="radio-row">
+              <label class="radio-option"><input type="radio" name="gender" value="female"><span>Female</span></label>
+              <label class="radio-option"><input type="radio" name="gender" value="male"><span>Male</span></label>
+              <label class="radio-option"><input type="radio" name="gender" value="other"><span>Other</span></label>
+            </div>
+            <div class="field-err" id="e-gender">Please select a gender.</div>
+          </div>
+          <div>
+            <label class="field-label" for="f-dob">Date of Birth</label>
+            <input type="date" id="f-dob">
+            <div class="field-err" id="e-dob">Please enter your date of birth.</div>
+          </div>
+          <div class="full">
+            <label class="field-label" for="f-addr">Address</label>
+            <textarea id="f-addr" placeholder="Hostel / city, with pin code"></textarea>
+            <div class="field-err" id="e-addr">Please enter your address.</div>
+          </div>
+          <div class="full form-actions">
+            <button type="submit" class="btn-submit">Submit Registration</button>
+            <button type="reset" class="btn-reset" onclick="clearErrors()">Reset</button>
           </div>
         </div>
-        <div>
-          <label for="dob">Date of Birth</label>
-          <input type="date" id="dob" name="dob">
-        </div>
-        <div class="full">
-          <label for="address">Address</label>
-          <textarea id="address" name="address" placeholder="Hostel / city, with pin code"></textarea>
-        </div>
-        <div class="full form-actions">
-          <button type="submit">Submit</button>
-          <button type="reset">Reset</button>
-        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div id="toast">✓ Registration submitted successfully!</div>
+
+<!-- MODULES TABLE -->
+<section id="reports" class="compact" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-head-text">
+        <div class="section-label">Architecture</div>
+        <div class="section-title">Application Modules</div>
       </div>
-    </form>
+      <div class="section-meta">6 modules</div>
+    </div>
+    <div class="table-wrap">
+      <table class="mods">
+        <thead>
+          <tr>
+            <th>Module ID</th>
+            <th>Module Name</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="mod-id">M01</td><td class="mod-name">Event Management</td><td>Create, edit, and publish events with schedules, venues, and capacity limits</td></tr>
+          <tr><td class="mod-id">M02</td><td class="mod-name">Registration &amp; Ticketing</td><td>Handles RSVPs, QR ticket generation, and seat tracking per event</td></tr>
+          <tr><td class="mod-id">M03</td><td class="mod-name">Payment Gateway</td><td>Processes paid event fees securely through UPI and card payments</td></tr>
+          <tr><td class="mod-id">M04</td><td class="mod-name">Notification Engine</td><td>Sends reminders, confirmations, and schedule-change alerts by email</td></tr>
+          <tr><td class="mod-id">M05</td><td class="mod-name">Certificate Generator</td><td>Auto-issues participation certificates once a student checks in</td></tr>
+          <tr><td class="mod-id">M06</td><td class="mod-name">Admin Analytics</td><td>Tracks attendance, revenue, and feedback for every event on the portal</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </section>
 
-<!-- Application Modules -->
-<section id="reports" class="wrap tight">
-  <div class="stats-head">
-    <h2>Application modules</h2>
-    <span class="mono">6 modules</span>
-  </div>
-  <table class="modules">
-    <thead>
-      <tr>
-        <th>Module ID</th>
-        <th>Module Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="id">M01</td>
-        <td class="name">Event Management</td>
-        <td>Create, edit, and publish events with schedules, venues, and capacity limits</td>
-      </tr>
-      <tr>
-        <td class="id">M02</td>
-        <td class="name">Registration &amp; Ticketing</td>
-        <td>Handles RSVPs, QR ticket generation, and seat tracking per event</td>
-      </tr>
-      <tr>
-        <td class="id">M03</td>
-        <td class="name">Payment Gateway</td>
-        <td>Processes paid event fees securely through UPI and card payments</td>
-      </tr>
-      <tr>
-        <td class="id">M04</td>
-        <td class="name">Notification Engine</td>
-        <td>Sends reminders, confirmations, and schedule-change alerts by email</td>
-      </tr>
-      <tr>
-        <td class="id">M05</td>
-        <td class="name">Certificate Generator</td>
-        <td>Auto-issues participation certificates once a student checks in</td>
-      </tr>
-      <tr>
-        <td class="id">M06</td>
-        <td class="name">Admin Analytics</td>
-        <td>Tracks attendance, revenue, and feedback for every event run on the portal</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<!-- Contact Information -->
-<section id="contact" class="wrap">
-  <div class="stats-head">
-    <h2>Contact information</h2>
-  </div>
-  <div class="contact-grid">
-    <div class="contact-card">
-      <div class="eyebrow">Email</div>
-      <p>support@eventra.cit.edu.in</p>
+<!-- CONTACT -->
+<section id="contact" class="compact" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-head-text">
+        <div class="section-label">Support</div>
+        <div class="section-title">Contact Us</div>
+      </div>
     </div>
-    <div class="contact-card">
-      <div class="eyebrow">Phone</div>
-      <p>+91 422 257 1234</p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-ico">✉</div>
+        <div class="contact-eyebrow">Email</div>
+        <div class="contact-val">support@eventra.cit.edu.in</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-ico">☎</div>
+        <div class="contact-eyebrow">Phone</div>
+        <div class="contact-val">+91 422 257 1234</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-ico">📍</div>
+        <div class="contact-eyebrow">Address</div>
+        <div class="contact-val">CIT, Coimbatore, Tamil Nadu 641014</div>
+      </div>
     </div>
-    <div class="contact-card">
-      <div class="eyebrow">Address</div>
-      <p>Coimbatore Institute of Technology, Coimbatore, Tamil Nadu 641014</p>
+    <div class="social-bar">
+      <a class="social-link" href="#">📸 Instagram</a>
+      <a class="social-link" href="#">💼 LinkedIn</a>
+      <a class="social-link" href="#">▶ YouTube</a>
+      <a class="social-link" href="#">💬 WhatsApp</a>
     </div>
-  </div>
-  <div class="social-row">
-    <a href="#">Instagram</a>
-    <a href="#">LinkedIn</a>
-    <a href="#">YouTube</a>
-    <a href="#">WhatsApp Community</a>
   </div>
 </section>
-
-<div id="about" style="display:none"></div>
 
 <footer>
   <div class="foot-inner">
-    <span>&copy; 2026 Eventra</span>
-    <span>Designed by Gokul SV</span>
+    <span>© 2026 <strong>Eventra</strong> · Coimbatore Institute of Technology</span>
+    <span>Designed by <strong>Gokul SV</strong> </span>
   </div>
 </footer>
 
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<script src="script.js"></script>
 </body>
 </html>
