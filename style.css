@@ -430,8 +430,10 @@ nav a.nav-logout:hover{background:rgba(249,115,22,.08)}
   color:var(--secondary);text-transform:uppercase;letter-spacing:.5px;
   margin-bottom:7px;
 }
+/* Modified for HTML5 Lab Assignment: added input[type=number], input[type=time], and div[contenteditable="true"] to form field selectors */
 input[type=text],input[type=email],input[type=tel],
-input[type=password],input[type=date],select,textarea{
+input[type=password],input[type=date],input[type=number],
+input[type=time],select,textarea,div[contenteditable="true"]{
   width:100%;
   border:1px solid var(--border);border-radius:var(--radius-sm);
   padding:11px 14px;
@@ -439,17 +441,21 @@ input[type=password],input[type=date],select,textarea{
   background:var(--bg);color:var(--primary);
   transition:border-color .2s,box-shadow .2s,background .35s;
 }
-input:focus,select:focus,textarea:focus{
+input:focus,select:focus,textarea:focus,div[contenteditable="true"]:focus{
   outline:none;
   border-color:var(--accent);
   box-shadow:0 0 0 3px rgba(16,185,129,.15);
   background:var(--surface);
 }
-.dark-mode input:focus,.dark-mode select:focus,.dark-mode textarea:focus{
+.dark-mode input:focus,.dark-mode select:focus,.dark-mode textarea:focus,.dark-mode div[contenteditable="true"]:focus{
   box-shadow:0 0 0 3px rgba(52,211,153,.15);
 }
-input.err{border-color:var(--orange)!important;box-shadow:0 0 0 3px rgba(249,115,22,.12)!important}
-textarea{resize:vertical;min-height:80px}
+input.err,div[contenteditable="true"].err{border-color:var(--orange)!important;box-shadow:0 0 0 3px rgba(249,115,22,.12)!important}
+textarea,div[contenteditable="true"]{resize:vertical;min-height:80px}
+div[contenteditable="true"]{
+  overflow-y:auto;
+  white-space:pre-wrap;
+}
 
 .radio-row{display:flex;gap:16px;padding-top:4px;flex-wrap:wrap}
 .radio-option{display:flex;align-items:center;gap:7px;cursor:pointer}
@@ -476,6 +482,15 @@ textarea{resize:vertical;min-height:80px}
   transition:border-color .2s,color .2s,background .2s;
 }
 .btn-reset:hover{border-color:var(--secondary);color:var(--primary);background:var(--bg)}
+
+/* Modified for HTML5 Lab Assignment: styled Cancel button to align with portal theme */
+.btn-cancel{
+  background:transparent;color:var(--orange);
+  border:1px solid var(--border);border-radius:var(--radius-md);
+  padding:12px 24px;font-size:14.5px;font-weight:600;cursor:pointer;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.btn-cancel:hover{border-color:var(--orange);background:rgba(249,115,22,.08)}
 
 #toast{
   display:none;position:fixed;bottom:88px;right:24px;
