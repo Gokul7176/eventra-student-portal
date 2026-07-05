@@ -88,6 +88,9 @@
   </div>
 </div>
 
+<!-- MAIN CONTENT CONTAINER (Added for HTML5 Lab Assignment) -->
+<main>
+
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="wrap">
@@ -108,7 +111,8 @@
           </button>
         </div>
       </div>
-      <div class="vm-stack">
+      <!-- Modified for HTML5 Lab Assignment: Converted to <aside> -->
+      <aside class="vm-stack">
         <div class="vm-card">
           <div class="vm-label">Vision</div>
           <div class="vm-text">A campus where finding and joining the right event takes seconds, not group-chat archaeology.</div>
@@ -117,7 +121,7 @@
           <div class="vm-label" style="color:var(--orange)">Mission</div>
           <div class="vm-text">Give every club a professional registration page in minutes, and every student one place to track what they've signed up for.</div>
         </div>
-      </div>
+      </aside>
     </div>
   </div>
 </section>
@@ -126,26 +130,27 @@
 <section class="slider-section" aria-label="Event highlights">
   <div class="slider-wrap" id="slider-wrap">
     <div class="slides-track" id="slides-track">
-      <div class="slide slide-1">
+      <!-- Modified for HTML5 Lab Assignment: Converted slides to <article> elements -->
+      <article class="slide slide-1">
         <span class="slide-badge">🚀 Live Now</span>
         <h2>TECHNOVA 2026</h2>
         <p>National-level hackathon · Jan 31 – Feb 1, 2026</p>
-      </div>
-      <div class="slide slide-2">
+      </article>
+      <article class="slide slide-2">
         <span class="slide-badge">🎨 Workshop</span>
         <h2>UI/UX Design Bootcamp</h2>
         <p>2-day intensive with industry mentors · Feb 8–9</p>
-      </div>
-      <div class="slide slide-3">
+      </article>
+      <article class="slide slide-3">
         <span class="slide-badge">🌿 Volunteer</span>
         <h2>Cultural Fest 2026</h2>
         <p>Sign up to make Kalolsavam unforgettable</p>
-      </div>
-      <div class="slide slide-4">
+      </article>
+      <article class="slide slide-4">
         <span class="slide-badge">🏆 New</span>
         <h2>Inter-Dept Sports Meet</h2>
         <p>Cricket · Badminton · Chess · TT · Feb 14</p>
-      </div>
+      </article>
     </div>
     <button class="slide-btn slide-prev" onclick="moveSlide(-1)" aria-label="Previous">‹</button>
     <button class="slide-btn slide-next" onclick="moveSlide(1)" aria-label="Next">›</button>
@@ -266,18 +271,21 @@
       <form id="reg-form" novalidate>
         <div class="form-grid">
           <div>
+            <!-- Modified for HTML5 Lab Assignment: added required attribute -->
             <label class="field-label" for="f-name">Full Name</label>
-            <input type="text" id="f-name" placeholder="Your full name">
+            <input type="text" id="f-name" placeholder="Your full name" required>
             <div class="field-err" id="e-name">Please enter your full name.</div>
           </div>
           <div>
+            <!-- Modified for HTML5 Lab Assignment: added required attribute -->
             <label class="field-label" for="f-email">Email Address</label>
-            <input type="email" id="f-email" placeholder="you@cit.edu.in">
+            <input type="email" id="f-email" placeholder="you@cit.edu.in" required>
             <div class="field-err" id="e-email">Enter a valid email address.</div>
           </div>
           <div>
+            <!-- Modified for HTML5 Lab Assignment: added pattern validation and required -->
             <label class="field-label" for="f-phone">Phone Number</label>
-            <input type="tel" id="f-phone" placeholder="+91 00000 00000">
+            <input type="tel" id="f-phone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
             <div class="field-err" id="e-phone">Enter a valid 10-digit number.</div>
           </div>
           <div>
@@ -295,18 +303,50 @@
             <div class="field-err" id="e-gender">Please select a gender.</div>
           </div>
           <div>
+            <!-- Modified for HTML5 Lab Assignment: added type="number" with min/max constraints -->
+            <label class="field-label" for="f-age">Age</label>
+            <input type="number" id="f-age" min="17" max="30" placeholder="Age (17 - 30)">
+            <div class="field-err" id="e-age">Age must be between 17 and 30.</div>
+          </div>
+          <div>
+            <!-- Modified for HTML5 Lab Assignment: added required attribute -->
             <label class="field-label" for="f-dob">Date of Birth</label>
-            <input type="date" id="f-dob">
+            <input type="date" id="f-dob" required>
             <div class="field-err" id="e-dob">Please enter your date of birth.</div>
+          </div>
+          <div>
+            <!-- Modified for HTML5 Lab Assignment: added type="time" input -->
+            <label class="field-label" for="f-time">Preferred Time</label>
+            <input type="time" id="f-time">
+            <div class="field-err" id="e-time">Please select your preferred time.</div>
+          </div>
+          <div class="full">
+            <!-- Modified for HTML5 Lab Assignment: added Skills checkboxes -->
+            <label class="field-label">Skills / Interests</label>
+            <div class="radio-row">
+              <label class="radio-option"><input type="checkbox" name="skills" value="coding"><span>Technical Events</span></label>
+              <label class="radio-option"><input type="checkbox" name="skills" value="ai"><span>Hackathons</span></label>
+              <label class="radio-option"><input type="checkbox" name="skills" value="webdev"><span>Workshops</span></label>
+              <label class="radio-option"><input type="checkbox" name="skills" value="uiux"><span>Sports</span></label>
+              <label class="radio-option"><input type="checkbox" name="skills" value="robotics"><span>Cultural Events</span></label>
+            </div>
           </div>
           <div class="full">
             <label class="field-label" for="f-addr">Address</label>
             <textarea id="f-addr" placeholder="Hostel / city, with pin code"></textarea>
             <div class="field-err" id="e-addr">Please enter your address.</div>
           </div>
+          <div class="full">
+            <!-- Modified for HTML5 Lab Assignment: added contenteditable comments section with spellcheck="true" -->
+            <label class="field-label" for="f-comments">Comments</label>
+            <div id="f-comments" class="editable-comments" contenteditable="true" spellcheck="true">Type your comments here...</div>
+            <div class="field-err" id="e-comments">Please enter valid comments.</div>
+          </div>
           <div class="full form-actions">
+            <!-- Modified for HTML5 Lab Assignment: added Cancel button, modified Reset button onclick -->
             <button type="submit" class="btn-submit">Submit Registration</button>
-            <button type="reset" class="btn-reset" onclick="clearErrors()">Reset</button>
+            <button type="reset" class="btn-reset">Reset</button>
+            <button type="button" class="btn-cancel" id="btn-cancel">Cancel</button>
           </div>
         </div>
       </form>
@@ -383,9 +423,13 @@
   </div>
 </section>
 
+</main> <!-- End of MAIN CONTENT CONTAINER (Added for HTML5 Lab Assignment) -->
+
+<!-- Modified for HTML5 Lab Assignment: added contact details to footer -->
 <footer>
   <div class="foot-inner">
     <span>© 2026 <strong>Eventra</strong> · Coimbatore Institute of Technology</span>
+    <span>Contact: support@eventra.cit.edu.in | +91 422 257 1234</span>
     <span>Designed by <strong>Gokul SV</strong> </span>
   </div>
 </footer>
