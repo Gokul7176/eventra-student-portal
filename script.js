@@ -89,24 +89,56 @@ function showErr(id,show){
   if(i&&i.id)document.getElementById('f-'+id)?.classList.toggle('err',show);
 }
 function clearErrors(){
-  ['name','email','phone','password','gender','dob','addr'].forEach(f=>showErr(f,false));
+  // Modified for HTML5 Lab Assignment: added new field IDs ('age', 'time')
+  ['name','email','phone','password','gender','dob','addr','age','time'].forEach(f=>showErr(f,false));
 }
+
+// Modified for HTML5 Lab Assignment: added form reset listener to clear custom elements like contenteditable comments
+document.getElementById('reg-form').addEventListener('reset', function() {
+  const c = document.getElementById('f-comments');
+  if (c) c.textContent = 'Type your comments here...';
+  clearErrors();
+});
+
+// Modified for HTML5 Lab Assignment: wired up Cancel button to reset form and scroll to home smooth
+document.getElementById('btn-cancel')?.addEventListener('click', function() {
+  document.getElementById('reg-form').reset();
+  document.getElementById('home').scrollIntoView({behavior:'smooth'});
+});
+
 document.getElementById('reg-form').addEventListener('submit',function(e){
   e.preventDefault();let ok=true;
-  const v=(id,test)=>{const r=test(document.getElementById('f-'+id)?.value||'');showErr(id,!r);if(!r)ok=false;};
+  
+  // HTML5 Validity based validation where possible, matching original constraints
+  const v=(id,test)=>{
+    const el=document.getElementById('f-'+id);
+    let r=true;
+    if(el){
+      r=el.checkValidity() && test(el.value||'');
+    }
+    showErr(id,!r);
+    if(!r)ok=false;
+  };
+  
   v('name',s=>s.trim().length>=2);
   v('email',s=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.trim()));
-  v('phone',s=>/^\+?[\d\s-]{10,14}$/.test(s.trim()));
+  // Modified for HTML5 Lab Assignment: updated pattern to check for exactly 10-digit number
+  v('phone',s=>/^[0-9]{10}$/.test(s.trim()));
   v('password',s=>s.length>=8);
   v('dob',s=>s!=='');
+  // Modified for HTML5 Lab Assignment: validate Age input if specified (range min=17 to max=30)
+  v('age',s=>s===''||(!isNaN(s)&&Number(s)>=17&&Number(s)<=30));
+  // Validate preferred time (optional, check validity of input if present)
+  v('time',s=>true);
   v('addr',s=>s.trim().length>=5);
+  
   const g=document.querySelector('input[name="gender"]:checked');
   showErr('gender',!g);if(!g)ok=false;
   if(ok){
     const t=document.getElementById('toast');
     t.style.display='block';
     setTimeout(()=>{t.style.display='none';},3200);
-    this.reset();clearErrors();
+    this.reset();
   }
 });
 
