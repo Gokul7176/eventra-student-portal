@@ -649,6 +649,296 @@ footer{
   animation: pulse 1.5s infinite alternate;
 }
 
+/* ─── ASSIGNMENT 4 STYLES ─── */
+
+/* Drag and Drop Section Styles */
+.drag-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+.drag-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.drag-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+.drag-card:active {
+  cursor: grabbing;
+}
+.drag-icon {
+  font-size: 24px;
+}
+.drag-name {
+  font-weight: 600;
+  font-size: 14.5px;
+}
+
+.drop-panel {
+  display: flex;
+  flex-direction: column;
+}
+.drop-zone {
+  flex: 1;
+  min-height: 180px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--bg);
+  padding: 24px;
+  margin-top: 16px;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.drop-zone.dragover {
+  background: rgba(16, 185, 129, 0.05);
+  border-color: var(--accent);
+  transform: scale(1.02);
+}
+.dark-mode .drop-zone.dragover {
+  background: rgba(52, 211, 153, 0.08);
+  border-color: var(--accent);
+}
+.drop-zone.dropped {
+  border-style: solid;
+  border-color: var(--accent);
+  background: rgba(16, 185, 129, 0.03);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.1);
+}
+.dark-mode .drop-zone.dropped {
+  border-color: var(--accent);
+  background: rgba(52, 211, 153, 0.05);
+}
+.drop-zone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.drop-icon-placeholder {
+  font-size: 32px;
+  margin-bottom: 4px;
+}
+.drop-text {
+  font-size: 14px;
+  color: var(--secondary);
+  font-weight: 500;
+}
+.drop-success-msg {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 600;
+  text-align: center;
+  margin-top: 12px;
+  min-height: 20px;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+.drop-success-msg.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Web Storage Styles */
+.storage-btn-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 8px;
+}
+@media (max-width: 600px) {
+  .storage-btn-group {
+    grid-template-columns: 1fr;
+  }
+}
+.btn-storage {
+  padding: 10px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  text-align: center;
+}
+.btn-local {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  box-shadow: var(--shadow-accent);
+}
+.btn-local:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+.btn-session {
+  background: var(--primary);
+  color: var(--surface);
+  border: none;
+}
+.btn-session:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.btn-retrieve {
+  background: var(--surface);
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+.btn-retrieve:hover {
+  border-color: var(--secondary);
+  background: var(--bg);
+}
+.btn-clear {
+  background: transparent;
+  color: var(--orange);
+  border: 1px solid var(--border);
+}
+.btn-clear:hover {
+  border-color: var(--orange);
+  background: rgba(249,115,22,.08);
+}
+
+.storage-status-msg {
+  font-size: 13px;
+  text-align: center;
+  font-weight: 500;
+  min-height: 20px;
+  color: var(--accent);
+  transition: color 0.2s;
+  margin-top: 4px;
+}
+.storage-status-msg.err {
+  color: var(--orange);
+}
+
+.storage-results-panel {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+.no-data-msg {
+  color: var(--secondary);
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.storage-result-block {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 14px;
+}
+.storage-result-block:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.storage-result-title {
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.storage-result-title.session {
+  color: var(--orange);
+}
+.storage-result-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.05);
+}
+.dark-mode .storage-result-item {
+  border-bottom-color: rgba(255,255,255,0.05);
+}
+.storage-result-item:last-child {
+  border-bottom: none;
+}
+.storage-result-key {
+  color: var(--secondary);
+  font-weight: 500;
+}
+.storage-result-val {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Help Section Styles */
+.faq-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s;
+}
+.faq-item[open] {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-md);
+}
+.faq-item summary {
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  outline: none;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.faq-item summary::after {
+  content: '▼';
+  font-size: 11px;
+  color: var(--secondary);
+  transition: transform 0.2s;
+}
+.faq-item[open] summary::after {
+  transform: rotate(180deg);
+  color: var(--accent);
+}
+.faq-answer {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--secondary);
+  line-height: 1.6;
+}
+
 /* Progress bars are already implemented using progressFill */
 /* Card Hover is already implemented using transform translateY and box-shadow */
 /* Fade/Slide are already implemented using fadeUp and slideRight */
