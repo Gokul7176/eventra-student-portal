@@ -148,7 +148,7 @@ window.addEventListener('scroll',()=>{
 });
 
 /* ACTIVE NAV */
-const sections=['home','dashboard','services','register','reports','contact'];
+const sections=['home','about','services','storage','contact','help'];
 const navLinks=document.querySelectorAll('nav a');
 const secObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{
@@ -157,3 +157,212 @@ const secObs=new IntersectionObserver(entries=>{
   });
 },{threshold:0.4});
 sections.forEach(id=>{const el=document.getElementById(id);if(el)secObs.observe(el);});
+
+/* HTML5 DRAG AND DROP */
+const dragCards = document.querySelectorAll('.drag-card');
+const dropZone = document.getElementById('event-drop-zone');
+const dropSuccessMsg = document.getElementById('drop-success-msg');
+
+dragCards.forEach(card => {
+  card.addEventListener('dragstart', function(e) {
+    e.dataTransfer.setData('text/plain', this.id);
+    e.dataTransfer.effectAllowed = 'copy';
+  });
+});
+
+if (dropZone) {
+  dropZone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    this.classList.add('dragover');
+  });
+
+  dropZone.addEventListener('dragleave', function() {
+    this.classList.remove('dragover');
+  });
+
+  dropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    this.classList.remove('dragover');
+    
+    const id = e.dataTransfer.getData('text/plain');
+    const draggedElement = document.getElementById(id);
+    
+    if (draggedElement) {
+      const categoryName = draggedElement.querySelector('.drag-name').textContent;
+      const categoryIcon = draggedElement.querySelector('.drag-icon').textContent;
+      
+      // Update drop zone content
+      this.innerHTML = `
+        <div class="drop-zone-content">
+          <div class="drop-icon-placeholder" style="animation: spinOnce 1s ease">${categoryIcon}</div>
+          <p class="drop-text"><strong>${categoryName}</strong> selected!</p>
+        </div>
+      `;
+      this.classList.add('dropped');
+      
+      // Show success message
+      if (dropSuccessMsg) {
+        dropSuccessMsg.textContent = `Successfully selected ${categoryName}!`;
+        dropSuccessMsg.classList.add('show');
+      }
+      
+      // Automatically update the Preferred Event Category dropdown
+      const selectEl = document.getElementById('store-pref-event');
+      if (selectEl) {
+        if (categoryName.includes('Technical')) {
+          selectEl.value = 'Technical';
+        } else if (categoryName.includes('Sports')) {
+          selectEl.value = 'Sports';
+        } else if (categoryName.includes('Cultural')) {
+          selectEl.value = 'Cultural';
+        }
+      }
+    }
+  });
+}
+
+/* LOCAL STORAGE */
+document.getElementById('btn-save-local')?.addEventListener('click', function() {
+  const name = document.getElementById('store-name').value.trim();
+  const email = document.getElementById('store-email').value.trim();
+  const prefEvent = document.getElementById('store-pref-event').value;
+  
+  if (!name || !email || !prefEvent) {
+    showStorageStatus('Please fill in all fields before saving.', true);
+    return;
+  }
+  
+  localStorage.setItem('eventraStudentName', name);
+  localStorage.setItem('eventraStudentEmail', email);
+  localStorage.setItem('eventraPreferredEvent', prefEvent);
+  
+  showStorageStatus('Data saved successfully to Local Storage.', false);
+});
+
+/* SESSION STORAGE */
+document.getElementById('btn-save-session')?.addEventListener('click', function() {
+  const name = document.getElementById('store-name').value.trim();
+  const email = document.getElementById('store-email').value.trim();
+  const prefEvent = document.getElementById('store-pref-event').value;
+  
+  if (!name || !email || !prefEvent) {
+    showStorageStatus('Please fill in all fields before saving.', true);
+    return;
+  }
+  
+  sessionStorage.setItem('eventraSessionName', name);
+  sessionStorage.setItem('eventraSessionEmail', email);
+  sessionStorage.setItem('eventraSessionEvent', prefEvent);
+  
+  showStorageStatus('Data saved successfully to Session Storage.', false);
+});
+
+/* RETRIEVE STORED DATA */
+document.getElementById('btn-retrieve-data')?.addEventListener('click', function() {
+  const localName = localStorage.getItem('eventraStudentName');
+  const localEmail = localStorage.getItem('eventraStudentEmail');
+  const localEvent = localStorage.getItem('eventraPreferredEvent');
+  
+  const sessionName = sessionStorage.getItem('eventraSessionName');
+  const sessionEmail = sessionStorage.getItem('eventraSessionEmail');
+  const sessionEvent = sessionStorage.getItem('eventraSessionEvent');
+  
+  const resultsPanel = document.getElementById('storage-results-panel');
+  
+  if (!localName && !localEmail && !localEvent && !sessionName && !sessionEmail && !sessionEvent) {
+    if (resultsPanel) {
+      resultsPanel.innerHTML = '<div class="no-data-msg">No stored data available.</div>';
+    }
+    showStorageStatus('No stored data found to retrieve.', true);
+    return;
+  }
+  
+  let html = '';
+  
+  if (localName || localEmail || localEvent) {
+    html += `
+      <div class="storage-result-block">
+        <div class="storage-result-title">Local Storage</div>
+        <div class="storage-result-item">
+          <span class="storage-result-key">Student Name</span>
+          <span class="storage-result-val">${localName || 'Not Set'}</span>
+        </div>
+        <div class="storage-result-item">
+          <span class="storage-result-key">Email</span>
+          <span class="storage-result-val">${localEmail || 'Not Set'}</span>
+        </div>
+        <div class="storage-result-item">
+          <span class="storage-result-key">Preferred Event</span>
+          <span class="storage-result-val">${localEvent || 'Not Set'}</span>
+        </div>
+      </div>
+    `;
+  }
+  
+  if (sessionName || sessionEmail || sessionEvent) {
+    html += `
+      <div class="storage-result-block">
+        <div class="storage-result-title session">Session Storage</div>
+        <div class="storage-result-item">
+          <span class="storage-result-key">Student Name</span>
+          <span class="storage-result-val">${sessionName || 'Not Set'}</span>
+        </div>
+        <div class="storage-result-item">
+          <span class="storage-result-key">Email</span>
+          <span class="storage-result-val">${sessionEmail || 'Not Set'}</span>
+        </div>
+        <div class="storage-result-item">
+          <span class="storage-result-key">Preferred Event</span>
+          <span class="storage-result-val">${sessionEvent || 'Not Set'}</span>
+        </div>
+      </div>
+    `;
+  }
+  
+  if (resultsPanel) {
+    resultsPanel.innerHTML = html;
+  }
+  showStorageStatus('Stored data retrieved successfully.', false);
+});
+
+/* CLEAR STORED DATA */
+document.getElementById('btn-clear-data')?.addEventListener('click', function() {
+  localStorage.removeItem('eventraStudentName');
+  localStorage.removeItem('eventraStudentEmail');
+  localStorage.removeItem('eventraPreferredEvent');
+  
+  sessionStorage.removeItem('eventraSessionName');
+  sessionStorage.removeItem('eventraSessionEmail');
+  sessionStorage.removeItem('eventraSessionEvent');
+  
+  // Clear the result panel
+  const resultsPanel = document.getElementById('storage-results-panel');
+  if (resultsPanel) {
+    resultsPanel.innerHTML = '<div class="no-data-msg">No stored data available.</div>';
+  }
+  
+  // Clear the storage form fields
+  const nameEl = document.getElementById('store-name');
+  const emailEl = document.getElementById('store-email');
+  const eventEl = document.getElementById('store-pref-event');
+  
+  if (nameEl) nameEl.value = '';
+  if (emailEl) emailEl.value = '';
+  if (eventEl) eventEl.selectedIndex = 0;
+  
+  showStorageStatus('Stored Eventra data cleared successfully.', false);
+});
+
+// Helper function to show status messages in storage card
+function showStorageStatus(msg, isErr) {
+  const statusEl = document.getElementById('storage-status-msg');
+  if (statusEl) {
+    statusEl.textContent = msg;
+    statusEl.className = 'storage-status-msg' + (isErr ? ' err' : '');
+    setTimeout(() => {
+      if (statusEl.textContent === msg) {
+        statusEl.textContent = '';
+      }
+    }, 3000);
+  }
+}
