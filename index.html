@@ -28,11 +28,11 @@
 
     <nav>
       <a href="#home" class="active">Home</a>
-      <a href="#dashboard">Dashboard</a>
-      <a href="#services">Services</a>
-      <a href="#register">Register</a>
-      <a href="#reports">Reports</a>
+      <a href="#about">About</a>
+      <a href="#services">Features</a>
+      <a href="#storage">Storage</a>
       <a href="#contact">Contact</a>
+      <a href="#help">Help</a>
       <a href="#" class="nav-logout">Logout</a>
     </nav>
 
@@ -158,6 +158,26 @@
   </div>
 </section>
 
+<!-- ABOUT PORTAL -->
+<section id="about" class="compact" style="border-top:1px solid var(--border)">
+  <div class="wrap two-col">
+    <article class="panel">
+      <div class="section-label">About Portal</div>
+      <h2 class="section-title" style="margin-bottom:12px">Eventra Overview</h2>
+      <p>Eventra is a unified Student Event Registration Portal built for the CIT campus. It simplifies event hosting and participation by providing a single, streamlined registration desk for fests, sports meets, cultural celebrations, hackathons, and academic workshops. With Eventra, students can easily manage their registrations in one place, and club organizers get real-time dashboards to manage RSVP queues, confirmations, and attendance tracking.</p>
+    </article>
+    <aside class="panel">
+      <div class="panel-title" style="color:var(--orange); text-transform:uppercase; font-size:11px; letter-spacing:1px; margin-bottom:12px">Why Eventra?</div>
+      <ul class="feature-list">
+        <li><span class="feature-icon">✓</span> Unified Profile registration</li>
+        <li><span class="feature-icon">✓</span> Real-time seat availability</li>
+        <li><span class="feature-icon">✓</span> Instant QR confirmation passes</li>
+        <li><span class="feature-icon">✓</span> Automatic web preference storage</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
 <!-- DASHBOARD STATS -->
 <section id="dashboard" class="compact">
   <div class="wrap">
@@ -256,6 +276,56 @@
     </div>
   </div>
 </div>
+
+<!-- DRAG & DROP EVENT CATEGORY -->
+<section id="drag-drop-section" class="compact" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-head-text">
+        <div class="section-label">Interactive</div>
+        <h2 class="section-title">Drag &amp; Drop Event Category</h2>
+        <p class="section-sub">Build your customized event pass by dragging a category into the drop zone</p>
+      </div>
+    </div>
+    
+    <div class="two-col">
+      <!-- Drag Sources Panel -->
+      <div class="panel">
+        <div class="panel-title" style="margin-bottom:16px">Available Categories</div>
+        <div class="drag-cards-container">
+          
+          <div class="drag-card" draggable="true" id="cat-technical">
+            <span class="drag-icon">💻</span>
+            <span class="drag-name">Technical Events</span>
+          </div>
+          
+          <div class="drag-card" draggable="true" id="cat-sports">
+            <span class="drag-icon">🏆</span>
+            <span class="drag-name">Sports Events</span>
+          </div>
+          
+          <div class="drag-card" draggable="true" id="cat-cultural">
+            <span class="drag-icon">🎭</span>
+            <span class="drag-name">Cultural Events</span>
+          </div>
+          
+        </div>
+      </div>
+      
+      <!-- Drop Target Panel -->
+      <div class="panel drop-panel" style="display:flex; flex-direction:column">
+        <div class="panel-title" style="margin-bottom:16px">Your Preference</div>
+        <div id="event-drop-zone" class="drop-zone">
+          <div class="drop-zone-content">
+            <div class="drop-icon-placeholder">📥</div>
+            <p class="drop-text">Drop your preferred event category here</p>
+          </div>
+        </div>
+        <div id="drop-success-msg" class="drop-success-msg"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- REGISTRATION FORM -->
 <section id="register" class="compact" style="border-top:1px solid var(--border)">
@@ -388,6 +458,66 @@
   </div>
 </section>
 
+<!-- WEB STORAGE SECTION -->
+<section id="storage" class="compact" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-head-text">
+        <div class="section-label">Web Storage</div>
+        <h2 class="section-title">Web Storage Demo</h2>
+        <p class="section-sub">Save and retrieve your Eventra preferences</p>
+      </div>
+    </div>
+    
+    <div class="two-col">
+      <!-- Storage Inputs Card -->
+      <div class="form-card" style="padding:28px 30px; animation:none; margin-bottom:0">
+        <div class="panel-title" style="margin-bottom:20px">Preference Form</div>
+        <div class="form-grid" style="grid-template-columns:1fr; gap:16px">
+          <div>
+            <label class="field-label" for="store-name">Student Name</label>
+            <input type="text" id="store-name" placeholder="Enter name for storage">
+          </div>
+          
+          <div>
+            <label class="field-label" for="store-email">Email Address</label>
+            <input type="email" id="store-email" placeholder="Enter email for storage">
+          </div>
+          
+          <div>
+            <label class="field-label" for="store-pref-event">Preferred Event Category</label>
+            <select id="store-pref-event">
+              <option value="" disabled selected>Select event category</option>
+              <option value="Technical">Technical</option>
+              <option value="Sports">Sports</option>
+              <option value="Cultural">Cultural</option>
+              <option value="Workshop">Workshop</option>
+              <option value="Hackathon">Hackathon</option>
+            </select>
+          </div>
+          
+          <div class="storage-btn-group">
+            <button type="button" class="btn-storage btn-local" id="btn-save-local">Save to Local Storage</button>
+            <button type="button" class="btn-storage btn-session" id="btn-save-session">Save to Session Storage</button>
+            <button type="button" class="btn-storage btn-retrieve" id="btn-retrieve-data">Retrieve Data</button>
+            <button type="button" class="btn-storage btn-clear" id="btn-clear-data">Clear Data</button>
+          </div>
+          
+          <div id="storage-status-msg" class="storage-status-msg"></div>
+        </div>
+      </div>
+      
+      <!-- Storage Results Panel -->
+      <div class="panel" style="display:flex; flex-direction:column">
+        <div class="panel-title" style="margin-bottom:20px">Stored Preferences Result</div>
+        <div id="storage-results-panel" class="storage-results-panel">
+          <div class="no-data-msg">No stored data available.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact" class="compact" style="border-top:1px solid var(--border)">
   <div class="wrap">
@@ -419,6 +549,46 @@
       <a class="social-link" href="#">💼 LinkedIn</a>
       <a class="social-link" href="#">▶ YouTube</a>
       <a class="social-link" href="#">💬 WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- HELP SECTION -->
+<section id="help" class="compact" style="border-top:1px solid var(--border)">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-head-text">
+        <div class="section-label">FAQ</div>
+        <h2 class="section-title">Help &amp; Support</h2>
+        <p class="section-sub">Frequently asked questions about the Eventra portal</p>
+      </div>
+    </div>
+    
+    <div class="faq-container">
+      <details class="faq-item">
+        <summary class="faq-question">How do I register for an event?</summary>
+        <div class="faq-answer">
+          <p>To register for an event, scroll to the <strong>Registration</strong> section, fill in your personal details (Name, Email, Phone, Age, DOB, and preferred time), select your skills/interests, and write comments. Click the <strong>Submit Registration</strong> button. Once validated, your profile will be created, and you can participate in campus events.</p>
+        </div>
+      </details>
+      
+      <details class="faq-item">
+        <summary class="faq-question">How does Drag and Drop work?</summary>
+        <div class="faq-answer">
+          <p>In the <strong>Drag &amp; Drop Event Category</strong> section, you can click and hold any of the three event category cards (Technical, Sports, or Cultural) and drag them over the dashed drop zone. Releasing the mouse button will drop the card, which automatically selects that category and syncs it with the Preferred Event Category in the Web Storage section.</p>
+        </div>
+      </details>
+      
+      <details class="faq-item">
+        <summary class="faq-question">What is the difference between Local Storage and Session Storage?</summary>
+        <div class="faq-answer">
+          <p>Both are HTML5 Web Storage mechanisms, but they differ in data persistence:</p>
+          <ul style="margin-left:20px; margin-top:8px; display:flex; flex-direction:column; gap:6px">
+            <li><strong>Local Storage:</strong> Data remains stored in the user's browser indefinitely, even after the browser is closed or restarted.</li>
+            <li><strong>Session Storage:</strong> Data is stored only for the duration of the current browser tab session. Once the tab or browser is closed, the data is completely cleared.</li>
+          </ul>
+        </div>
+      </details>
     </div>
   </div>
 </section>
